@@ -4,7 +4,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "dummy-key" })
 
 export async function runMentorMatchingAgent(userAspiration) {
   const prompt = `
-    You are a Mentor Matching Agent. Given the user's aspiration: "${userAspiration}", 
+    You are a Mentor Matching Agent. Given the user aspiration: "${userAspiration}", 
     suggest a specific mentor archetypes (e.g., 'The Senior Product Designer who started on Dribbble', 'The Indie Hacker scaling solo'), 
     and provide 1 piece of advice they would give.
   `;
