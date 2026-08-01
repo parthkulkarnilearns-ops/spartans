@@ -1,1 +1,73 @@
+export async function runCommunitySignalAgent(topic) {
+  // Simulated community signals (Can be connected to a live database or trending API later)
+  const trendingSignals = {
+    "design": "🔥 340 Gen Zs in your cohort are currently building their first design portfolios on Peerlist.",
+    "coding": "⚡ Hackathon season is live! 120 peers are looking for teammates to build AI tools right now.",
+    "general": "✨ 500+ peers completed their daily deep work block today."
+  };
 
+  return trendingSignals[topic] || "🌊 Community pulse: Peers are focusing heavily on creative side-hustles this week.";
+}
+export async function runCuratorAgent(userGoal) {
+  const TAVILY_API_KEY = process.env.TAVILY_API_KEY || "dummy-key";
+  
+  try {
+    const response = await fetch("https://api.tavily.com/search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        api_key: TAVILY_API_KEY,
+        query: `best beginner resources tools podcasts for ${userGoal}`,
+        search_depth: "basic",
+        max_results: 3
+      })
+    });
+
+    const data = await response.json();
+    return data.results ? data.results.map(r => ({ title: r.title, url: r.url })) : [];
+  } catch (error) {
+    console.error("Curator Agent Error:", error);
+    return [{ title: "Learn UI/UX Basics on Figma", url: "https://figma.com" }];
+  }
+}
+import OpenAI from "openai";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "dummy-key" });
+
+export async function runHabitTrackingAgent(userActivityLog) {
+  const prompt = `
+    You are a Habit Tracking Agent for Gen Z. Analyze this user check-in log: "${userActivityLog}".
+    Determine their current streak, spot if they are falling off, and write a short, non-toxic, encouraging accountability message.
+  `;
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "system", content: prompt }],
+    });
+    return completion.choices[0].message.content;
+  } catch (error) {
+    return "Hey bestie! Just a reminder to take 10 minutes today for your goals. You got this!";
+  }
+}
+import OpenAI from "openai";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "dummy-key" });
+
+export async function runMentorMatchingAgent(userAspiration) {
+  const prompt = `
+    You are a Mentor Matching Agent. Given the user aspiration: "${userAspiration}", 
+    suggest a specific mentor archetypes (e.g., 'The Senior Product Designer who started on Dribbble', 'The Indie Hacker scaling solo'), 
+    and provide 1 piece of advice they would give.
+  `;
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "system", content: prompt }],
+    });
+    return completion.choices[0].message.content;
+  } catch (error) {
+    return "Matched with a Senior Design Lead: 'Focus less on pixel perfection early on, and more on solving real user pain points.'";
+  }
+}
