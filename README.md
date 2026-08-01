@@ -12,7 +12,7 @@
 
 ## 🚀 The Vision
 
-Today’s algorithms optimize for attention. **Aura optimizes for human potential.** 
+ Hi Today’s algorithms optimize for attention. **Aura optimizes for human potential.** 
 
 Individuals seeking personal growth often face a massive hurdle: finding the right resources, at the exact right moment, that align with their evolving identity. Aura is an agentic AI curator that deeply understands a user's aspirations, current emotional state, and habits to continuously curate the most relevant media, knowledge, and tools to help them become the self they imagine.
 
